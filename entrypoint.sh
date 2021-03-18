@@ -31,7 +31,7 @@ git push origin
 
 
 git fetch && git checkout $MERGED_BRANCH
-git pull . $HEAD_BRANCH
+git pull origin $HEAD_BRANCH
 git add -A
-git commit -m "reset parent to revert commit -- due to $COMMIT_MESSAGE6
+git commit -m "reset parent to revert commit -- due to $COMMIT_MESSAGE"
 git push
