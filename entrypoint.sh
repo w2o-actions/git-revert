@@ -12,6 +12,8 @@ git config --global user.name "GitHub Revert Action"
 
 set -o xtrace
 
+HEAD_BRANCH=$(git branch --show-current)
+
 git fetch origin $HEAD_BRANCH
 
 # do the revert
