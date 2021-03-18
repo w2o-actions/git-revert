@@ -7,7 +7,7 @@ LABEL "com.github.actions.description"="Automatically revert a commit"
 LABEL "com.github.actions.icon"="git-pull-request"
 LABEL "com.github.actions.color"="black"
 
-RUN apk --no-cache add bash git
+RUN apk --no-cache add bash git gawk
 
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
