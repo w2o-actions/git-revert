@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-awk --version
+
 echo "Repo owner --> $REPO_OWNER"
 # get the SHA to revert
 COMMIT_TO_REVERT=$(git rev-parse HEAD)
@@ -11,8 +11,8 @@ HEAD_BRANCH=$(git branch --show-current)
 # get the branch that was just merged
 GIT_LOG=$(git log --merges origin/$HEAD_BRANCH --oneline --grep="^Merge pull request #\([0-9]\+\)" -1 )
 MERGED_BRANCH=$(echo $GIT_LOG | awk -F"$REPO_OWNER/" ' { print $NF } ')
-echo $GIT_LOG
-echo $MERGED_BRANCH
+
+echo "MERGED BRANCH --> $MERGED_BRANCH"
 # set git config
 git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$REPO_FULLNAME.git
 git config --global user.email "revert@github.com"
@@ -31,12 +31,12 @@ git revert $COMMIT_TO_REVERT -m 1 --no-edit
 
 git commit --amend -m "$COMMIT_MESSAGE"
 git push -u origin $HEAD_BRANCH
-
+sleep 5;
 echo "merged branch --> $MERGED_BRANCH"
 git fetch
 git checkout $MERGED_BRANCH
 git branch
-git pull origin $HEAD_BRANCH --quiet
+git pull origin $HEAD_BRANCH
 git add -A
 git commit -m "reset parent to revert commit -- due to $COMMIT_MESSAGE"
 git push -u origin $MERGED_BRANCH
