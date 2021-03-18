@@ -12,7 +12,22 @@ HEAD_BRANCH=$(git branch --show-current)
 GIT_LOG=$(git log --merges origin/$HEAD_BRANCH --oneline --grep="^Merge pull request #\([0-9]\+\)" -1 )
 MERGED_BRANCH=$(echo $GIT_LOG | awk -F"$REPO_OWNER/" ' { print $NF } ')
 
+echo "GIT LOG --> $GIT_LOG"
 echo "MERGED BRANCH --> $MERGED_BRANCH"
+
+echo "JUST TEST HERE"
+git log
+git log --merges origin/master
+
+git log --merges origin/$HEAD_BRANCH --oneline --grep='^Merge pull request #\([0-9]\+\)'
+
+git log --merges origin/$HEAD_BRANCH --oneline --grep='^Merge pull request #\([0-9]\+\)' -1 
+
+git log --merges origin/$HEAD_BRANCH --oneline --grep='^Merge pull request #\([0-9]\+\)' -1 | awk -F"$REPO_OWNER/" ' { print $NF } '
+ 
+echo "did the above work?"
+
+
 # set git config
 git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$REPO_FULLNAME.git
 git config --global user.email "revert@github.com"
