@@ -2,14 +2,15 @@
 
 set -e
 
-echo $COMMIT_MESSAGE
+echo "Repo owner --> $REPO_FULLNAME"
 # get the SHA to revert
 COMMIT_TO_REVERT=$(git rev-parse HEAD)
 # get this branch
 HEAD_BRANCH=$(git branch --show-current)
 
 # get the branch that was just merged
-MERGED_BRANCH=$(git log --merges origin/$HEAD_BRANCH --oneline --grep="^Merge pull request #\([0-9]\+\)" -1 | awk -F"$REPO_OWNER/" ' { print $NF } ')
+GIT_LOG=$(git log --merges origin/$HEAD_BRANCH --oneline --grep="^Merge pull request #\([0-9]\+\)" -1 )
+MERGED_BRANCH=$(echo $GITLOG | awk -F"$REPO_OWNER/" ' { print $NF } ')
 
 # set git config
 git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$REPO_FULLNAME.git
