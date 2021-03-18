@@ -16,16 +16,15 @@ echo "GIT LOG --> $GIT_LOG"
 echo "MERGED BRANCH --> $MERGED_BRANCH"
 
 echo "JUST TEST HERE"
-git log
+
 git log --merges origin/master
 
-git log --merges origin/$HEAD_BRANCH --oneline --grep='^Merge pull request #\([0-9]\+\)'
 
-git log --merges origin/$HEAD_BRANCH --oneline --grep='^Merge pull request #\([0-9]\+\)' -1 
 
-git log --merges origin/$HEAD_BRANCH --oneline --grep='^Merge pull request #\([0-9]\+\)' -1 | awk -F"$REPO_OWNER/" ' { print $NF } '
  
 echo "did the above work?"
+
+git log --merges origin/$HEAD_BRANCH --oneline --grep='^Merge pull request #\([0-9]\+\)' -1 | awk -F"$REPO_OWNER/" ' { print $NF } '
 
 
 # set git config
