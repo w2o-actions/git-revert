@@ -28,5 +28,5 @@ git cat-file -t $COMMIT_TO_REVERT
 git revert $COMMIT_TO_REVERT -m 1 --no-edit
 # pass commit message in so we can identify what step failed
 
-git commit --amend -m $COMMIT_MESSAGE
+git commit --amend -m "$COMMIT_MESSAGE"
 git push origin
