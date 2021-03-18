@@ -12,9 +12,9 @@ HEAD_BRANCH=$(git branch --show-current)
 MERGED_BRANCH=$(git log --merges origin/$HEAD_BRANCH --oneline --grep="^Merge pull request #\([0-9]\+\)" -1 | awk -F"$REPO_OWNER/" ' { print $NF } ')
 
 # set git config
-# git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$REPO_FULLNAME.git
-# git config --global user.email "revert@github.com"
-# git config --global user.name "GitHub Revert Action"
+git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$REPO_FULLNAME.git
+git config --global user.email "revert@github.com"
+git config --global user.name "GitHub Revert Action"
 
 set -o xtrace
 
