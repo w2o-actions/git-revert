@@ -9,7 +9,8 @@ git config --global user.name "GitHub Revert Action"
 
 set -o xtrace
 
-git fetch origin && git checkout $HEAD_BRANCH
+git fetch origin
+git checkout $HEAD_BRANCH
 
 # get the SHA to revert
 COMMIT_TO_REVERT=$(git rev-parse HEAD)
@@ -17,13 +18,14 @@ COMMIT_TO_REVERT=$(git rev-parse HEAD)
 HEAD_BRANCH=$(git branch --show-current)
 
 # get the branch that was just merged
-GIT_LOG=$(git log --merges origin/$HEAD_BRANCH --oneline --grep='^Merge pull request #\([0-9]\+\)' -1 )
-MERGED_BRANCH=$(echo $GIT_LOG | awk -F"$REPO_OWNER/" ' { print $NF } ')
+GIT_LOG=$(git log --merges origin/$HEAD_BRANCH --oneline -1 | awk -F"$REPO_OWNER/" ' { print $NF } ' )
+GIT_LOG_TEST=$(git log --merges origin/$HEAD_BRANCH --oneline)
 
-echo $COMMIT_TO_REVERT
-echo $HEAD_BRANCH
+
 echo $GIT_LOG
-echo "MERGED BRANCH --> $MERGED_BRANCH"
+echo $GIT_LOG_TEST
+echo "git logs above, merged branch below"
+echo $MERGED_BRANCH
 # check commit exists
 git cat-file -t $COMMIT_TO_REVERT
 
@@ -38,8 +40,9 @@ echo "merged branch --> $MERGED_BRANCH"
 git fetch
 git checkout $MERGED_BRANCH
 git branch
+COMMIT_TO_CHERRY_PICK=$(git rev-parse HEAD)
 git pull origin $HEAD_BRANCH
-git cherry-pick $COMMIT_TO_REVERT
+git cherry-pick $COMMIT_TO_CHERRY_PICK
 git add -A
 git commit -m "reset parent to revert commit -- due to $COMMIT_MESSAGE"
 git push -u origin $MERGED_BRANCH
