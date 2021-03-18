@@ -9,6 +9,8 @@ git config --global user.name "GitHub Revert Action"
 
 set -o xtrace
 
+git fetch origin && git checkout $HEAD_BRANCH
+
 # get the SHA to revert
 COMMIT_TO_REVERT=$(git rev-parse HEAD)
 # get this branch
@@ -22,10 +24,6 @@ echo $COMMIT_TO_REVERT
 echo $HEAD_BRANCH
 echo $GIT_LOG
 echo "MERGED BRANCH --> $MERGED_BRANCH"
-
-
-git fetch origin $HEAD_BRANCH
-
 # check commit exists
 git cat-file -t $COMMIT_TO_REVERT
 
