@@ -29,9 +29,11 @@ git revert $COMMIT_TO_REVERT -m 1 --no-edit
 git commit --amend -m "$COMMIT_MESSAGE"
 git push origin
 
-
-git fetch && git checkout $MERGED_BRANCH
-git pull origin $HEAD_BRANCH
+echo "merged branch --> $MERGED_BRANCH"
+git fetch
+git checkout $MERGED_BRANCH
+git branch
+git pull origin $HEAD_BRANCH --quiet
 git add -A
 git commit -m "reset parent to revert commit -- due to $COMMIT_MESSAGE"
 git push
