@@ -7,25 +7,19 @@ git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$REPO_
 git config --global user.email "revert@github.com"
 git config --global user.name "GitHub Revert Action"
 
-set -o xtrace
-
-git fetch origin
-git checkout $HEAD_BRANCH
-
-# get the SHA to revert
-COMMIT_TO_REVERT=$(git rev-parse HEAD)
 # get this branch
 HEAD_BRANCH=$(git branch --show-current)
 
-# get the branch that was just merged
-GIT_LOG=$(git log --merges origin/$HEAD_BRANCH --oneline -1 | awk -F"$REPO_OWNER/" ' { print $NF } ' )
-GIT_LOG_TEST=$(git log --merges origin/$HEAD_BRANCH --oneline)
+set -o xtrace
+
+git fetch origin $HEAD_BRANCH
+
+git checkout -b $HEAD_BRANCH origin/$HEAD_BRANCH
+
+# get the SHA to revert
+COMMIT_TO_REVERT=$(git rev-parse HEAD)
 
 
-echo $GIT_LOG
-echo $GIT_LOG_TEST
-echo "git logs above, merged branch below"
-echo $MERGED_BRANCH
 # check commit exists
 git cat-file -t $COMMIT_TO_REVERT
 
@@ -36,6 +30,16 @@ git revert $COMMIT_TO_REVERT -m 1 --no-edit
 git commit --amend -m "$COMMIT_MESSAGE"
 git push -u origin $HEAD_BRANCH
 sleep 5;
+# get the branch that was just merged
+
+MERGED_BRANCH=$(git log --merges origin/$HEAD_BRANCH --oneline -1 | awk -F"$REPO_OWNER/" ' { print $NF } ' )
+#GIT_LOG_TEST=$(git log --merges origin/$HEAD_BRANCH --oneline)
+
+
+echo $MERGED_BRANCH
+
+echo "git logs above, merged branch below"
+
 echo "merged branch --> $MERGED_BRANCH"
 git fetch
 git checkout $MERGED_BRANCH
