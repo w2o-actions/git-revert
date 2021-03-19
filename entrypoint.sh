@@ -44,7 +44,5 @@ git pull origin $HEAD_BRANCH
 git cherry-pick $COMMIT_TO_CHERRY_PICK
 sleep 2
 git add -A
-git commit --amend  -m "reset parent to revert commit -- due to $COMMIT_MESSAGE" --quiet
+git commit --amend  -m "PR/Merge reverted, got latest head of revert + cherry pick previous change -- due to $COMMIT_MESSAGE" --quiet
 git push -u origin $MERGED_BRANCH;
-sleep 3;
-echo "Push should happen above me"
