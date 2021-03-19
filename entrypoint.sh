@@ -14,7 +14,7 @@ set -o xtrace
 
 git fetch origin $HEAD_BRANCH
 
-git checkout -b $HEAD_BRANCH origin/$HEAD_BRANCH
+git checkout $HEAD_BRANCH
 
 # get the SHA to revert
 COMMIT_TO_REVERT=$(git rev-parse HEAD)
