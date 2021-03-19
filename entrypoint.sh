@@ -35,20 +35,18 @@ sleep 3;
 MERGED_BRANCH=$(git log --merges origin/$HEAD_BRANCH --oneline -1 | awk -F"$REPO_OWNER/" ' { print $NF } ' )
 #GIT_LOG_TEST=$(git log --merges origin/$HEAD_BRANCH --oneline)
 
-
-echo $MERGED_BRANCH
-
-echo "git logs above, merged branch below"
-
-echo "merged branch --> $MERGED_BRANCH"
 git fetch
 git checkout $MERGED_BRANCH
 git branch
 COMMIT_TO_CHERRY_PICK=$(git rev-parse HEAD)
 git pull origin $HEAD_BRANCH
 git cherry-pick $COMMIT_TO_CHERRY_PICK
+sleep 2;
 git add -A
 git commit -m "reset parent to revert commit -- due to $COMMIT_MESSAGE"
 sleep 2;
-git push -u origin $MERGED_BRANCH
+git status;
+sleep 2;
+git push;
+git push -u origin $MERGED_BRANCH;
 sleep 3;
