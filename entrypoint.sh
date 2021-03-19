@@ -43,7 +43,7 @@ COMMIT_TO_CHERRY_PICK=$(git rev-parse HEAD)
 git pull origin $HEAD_BRANCH
 git cherry-pick $COMMIT_TO_CHERRY_PICK
 sleep 2
-git add -A --quiet
+git add -A
 git commit -m "reset parent to revert commit -- due to $COMMIT_MESSAGE" --quiet
 date;
 git push ;
