@@ -29,7 +29,7 @@ git revert $COMMIT_TO_REVERT -m 1 --no-edit
 
 git commit --amend -m "$COMMIT_MESSAGE"
 git push -u origin $HEAD_BRANCH
-sleep 3;
+sleep 3
 # get the branch that was just merged
 
 MERGED_BRANCH=$(git log --merges origin/$HEAD_BRANCH --oneline -1 | awk -F"$REPO_OWNER/" ' { print $NF } ' )
@@ -37,16 +37,19 @@ MERGED_BRANCH=$(git log --merges origin/$HEAD_BRANCH --oneline -1 | awk -F"$REPO
 
 git fetch
 git checkout $MERGED_BRANCH
-git branch
+
 COMMIT_TO_CHERRY_PICK=$(git rev-parse HEAD)
 git pull origin $HEAD_BRANCH
 git cherry-pick $COMMIT_TO_CHERRY_PICK
-sleep 2;
+sleep 2
 git add -A
 git commit -m "reset parent to revert commit -- due to $COMMIT_MESSAGE"
-sleep 2;
-git status;
-sleep 2;
-git push;
-git push -u origin $MERGED_BRANCH;
-sleep 3;
+git log -1
+git push
+git push
+git push
+git push -u origin $MERGED_BRANCH
+git push -u origin $MERGED_BRANCH
+git push -u origin $MERGED_BRANCH
+sleep 10
+echo "Push should happen above me"
