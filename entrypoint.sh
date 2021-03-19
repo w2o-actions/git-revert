@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -o xtrace
 
 set git config
 git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$REPO_FULLNAME.git
@@ -10,7 +11,7 @@ git config --global user.name "GitHub Revert Action"
 # get this branch
 HEAD_BRANCH=$(git branch --show-current)
 
-set -o xtrace
+
 
 git fetch origin $HEAD_BRANCH
 
@@ -42,14 +43,11 @@ COMMIT_TO_CHERRY_PICK=$(git rev-parse HEAD)
 git pull origin $HEAD_BRANCH
 git cherry-pick $COMMIT_TO_CHERRY_PICK
 sleep 2
-git add -A
-git commit -m "reset parent to revert commit -- due to $COMMIT_MESSAGE"
-git log -1
-git push
-git push
-git push
-git push -u origin $MERGED_BRANCH
-git push -u origin $MERGED_BRANCH
-git push -u origin $MERGED_BRANCH
-sleep 10
+git add -A --quiet
+git commit -m "reset parent to revert commit -- due to $COMMIT_MESSAGE" --quiet
+date;
+git push ;
+sleep 3;
+git push -u origin $MERGED_BRANCH;
+sleep 10;
 echo "Push should happen above me"
