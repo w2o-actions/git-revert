@@ -44,10 +44,7 @@ git pull origin $HEAD_BRANCH
 git cherry-pick $COMMIT_TO_CHERRY_PICK
 sleep 2
 git add -A
-git commit -m "reset parent to revert commit -- due to $COMMIT_MESSAGE" --quiet
-date;
-git push ;
-sleep 3;
+git commit --amend  -m "reset parent to revert commit -- due to $COMMIT_MESSAGE" --quiet
 git push -u origin $MERGED_BRANCH;
-sleep 10;
+sleep 3;
 echo "Push should happen above me"
